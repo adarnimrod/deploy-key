@@ -1,5 +1,44 @@
 ---
-- hosts: all
+- hosts: ansible-role-deploy-key-openbsd
   gather_facts: false
+  roles: [openbsd-bootstrap]
+
+- hosts: all
+  pre_tasks:
+      - name: Create SSH keypair
+        local_action: command ssh-keygen -t rsa -N '' -f files/id_rsa
+        become: False
+        args:
+            creates: files/id_rsa
   roles:
     - role: ansible-role-deploy-key
+      deploy_key: '{{ lookup("file", "id_rsa") }}'
+      deploy_key_repos: ['localhost']
+  post_tasks:
+      - name: Create git user
+        user:
+            name: git
+            password: '*************'
+            state: present
+
+      - name: Add public deploy key
+        authorized_key:
+            user: git
+            key: '{{ lookup("file", "id_rsa.pub") }}'
+            state: present
+
+      - name: Prepare git repo
+        git:
+            dest: /home/git/ansible-role-deploy-key
+            force: yes
+            update: yes
+            repo: https://www.shore.co.il/git/ansible-role-deploy-key
+            version: master
+
+      - name: Test git module with an unprivileged user
+        become: True
+        become_user: nobody
+        git:
+            dest: /tmp/ansible-role-deploy-key
+            repo: git@localhost:/home/git/ansible-role-deploy-key
+            version: master
