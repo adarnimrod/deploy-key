@@ -52,6 +52,7 @@
   register: deploy_key_ssh_keyscan
   changed_when: False
   become: False
+  check_mode: no
 
 - name: Add known hosts
   with_items: '{{ deploy_key_ssh_keyscan.results }}'
