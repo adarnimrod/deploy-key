@@ -26,6 +26,16 @@
       name: git
       state: present
 
+- name: Add mail alias
+  when: deploy_key_mail_alias is defined
+  lineinfile:
+      dest: '{{ aliases_file[ansible_os_family] }}'
+      create: yes
+      line: '{{ deploy_key_user[ansible_os_family] }}: {{ deploy_key_mail_alias }}'
+      regexp: '{{ deploy_key_user[ansible_os_family] }}:'
+  notify:
+      - Update SMTPd database
+
 - name: Copy the deployment key
   copy:
       content: '{{ deploy_key }}'

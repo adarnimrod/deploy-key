@@ -1,3 +1,4 @@
 ---
 # defaults file for ansible-role-deploy-key
 deploy_key_user: nobody
+deploy_key_mail_alias: root
