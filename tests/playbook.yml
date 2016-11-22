@@ -10,6 +10,16 @@
         become: False
         args:
             creates: files/id_rsa
+
+      - name: Install SSH server
+        apt:
+            name: openssh-server
+            state: present
+
+      - name: Enable SSH service
+        service:
+            name: ssh
+            state: started
   roles:
     - role: ansible-role-deploy-key
       deploy_key: '{{ lookup("file", "id_rsa") }}'
@@ -32,7 +42,7 @@
             dest: /home/git/ansible-role-deploy-key
             force: yes
             update: yes
-            repo: https://www.shore.co.il/git/ansible-role-deploy-key
+            repo: https://github.com/adarnimrod/ansible-role-deploy-key
             version: master
 
       - name: Test git module with an unprivileged user
