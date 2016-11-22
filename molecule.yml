@@ -33,3 +33,5 @@ docker:
   - name: ansible-role-deploy-key-ubuntu
     image: ubuntu
     image_version: xenial
+    environment:
+        DEBIAN_FRONTEND: noninteractive
