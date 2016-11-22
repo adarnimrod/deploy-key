@@ -31,8 +31,8 @@
   lineinfile:
       dest: '{{ aliases_file[ansible_os_family] }}'
       create: yes
-      line: '{{ deploy_key_user[ansible_os_family] }}: {{ deploy_key_mail_alias }}'
-      regexp: '{{ deploy_key_user[ansible_os_family] }}:'
+      line: '{{ deploy_key_user }}: {{ deploy_key_mail_alias }}'
+      regexp: '{{ deploy_key_user }}:'
   notify:
       - Update SMTPd database
 
