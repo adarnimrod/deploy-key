@@ -11,6 +11,7 @@
   pre_tasks:
       - name: Create SSH keypair
         local_action: command ssh-keygen -t rsa -N '' -f files/id_rsa
+        run_once: True
         become: False
         args:
             creates: files/id_rsa
