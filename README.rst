@@ -1,13 +1,15 @@
 deploy-key
 ##########
 
+.. image:: https://travis-ci.org/adarnimrod/deploy-key.svg?branch=master
+    :target: https://travis-ci.org/adarnimrod/deploy-key
+
 Add a Git deployment key for the :code:`nobody` user.
 
 Requirements
 ------------
 
-See :code:`meta/main.yml`, :code:`tests/requirements.yml` and assertions at
-the top of :code:`tasks/main.yml`.
+See :code:`meta/main.yml` and assertions at the top of :code:`tasks/main.yml`.
 
 Role Variables
 --------------

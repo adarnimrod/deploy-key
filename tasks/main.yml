@@ -1,5 +1,5 @@
 ---
-# tasks file for ansible-role-deploy-key
+# tasks file for deploy-key
 - name: Assertions
   assert:
     that:

@@ -1,5 +1,5 @@
 ---
-# vars file for ansible-role-deploy-key
+# vars file for deploy-key
 aliases_file:
     OpenBSD: /etc/mail/aliases
     Debian: /etc/aliases

@@ -1,7 +1,11 @@
 ---
-- hosts: ansible-role-deploy-key-openbsd
+- hosts: deploy-key-openbsd
   gather_facts: false
-  roles: [openbsd_bootstrap]
+  roles: [adarnimrod.openbsd-bootstrap]
+
+- hosts: deploy-key-xenial
+  gather_facts: false
+  roles: [adarnimrod.debian-bootstrap]
 
 - hosts: all
   pre_tasks:
@@ -21,7 +25,7 @@
             name: ssh
             state: started
   roles:
-    - role: ansible-role-deploy-key
+    - role: deploy-key
       deploy_key: '{{ lookup("file", "id_rsa") }}'
       deploy_key_repos: ['localhost']
   post_tasks:
