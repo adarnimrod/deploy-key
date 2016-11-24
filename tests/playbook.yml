@@ -47,7 +47,7 @@
             dest: /home/git/ansible-role-deploy-key
             force: yes
             update: yes
-            repo: https://github.com/adarnimrod/ansible-role-deploy-key
+            repo: https://github.com/adarnimrod/deploy-key
             version: master
 
       - name: Test git module with an unprivileged user
