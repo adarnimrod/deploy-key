@@ -21,10 +21,16 @@
             name: openssh-server
             state: present
 
-      - name: Enable SSH service
+      - name: Start SSH service
         service:
             name: ssh
             state: started
+
+      - name: Start SSH service
+        command: service ssh start
+        changed_when: False
+        when: ansible_connection == 'docker' and ansible_service_mgr == 'upstart' # Workaround.
+        tags: [skip_ansible_lint]
   roles:
     - role: deploy-key
       deploy_key: '{{ lookup("file", "id_rsa") }}'
