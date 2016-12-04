@@ -42,7 +42,7 @@ docker:
         DEBIAN_FRONTEND: noninteractive
         container: docker
   - name: deploy-key-trusty
-    image: ubuntu
+    image: ubuntu-upstart
     image_version: trusty
     environment:
         DEBIAN_FRONTEND: noninteractive
