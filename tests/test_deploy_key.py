@@ -8,15 +8,9 @@ def test_deploy_key(Command, Sudo):
         assert Command('git -C /tmp/ansible-role-deploy-key pull').rc == 0
 
 
-def test_deply_key_alias(File, Ansible, User, TestinfraBackend):
+def test_deply_key_alias(File, User, SystemInfo):
     assert User('nobody').exists
-    connection = TestinfraBackend.get_connection_type()
-    if connection == 'docker':
-        ansible_os_family = 'Debian'
-    elif connection == 'ansible':
-        ansible_os_family = Ansible('setup')['ansible_facts'][
-            'ansible_os_family']
-    if ansible_os_family == 'Debian':
+    if SystemInfo.type == 'linux':
         assert File('/etc/aliases').contains('nobody: root')
-    elif ansible_os_family == 'OpenBSD':
+    elif SystemInfo.type == 'openbsd':
         assert File('/etc/mail/aliases').contains('nobody: root')
