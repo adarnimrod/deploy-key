@@ -3,5 +3,3 @@
 deploy_key_users:
     - nobody
     - root
-    - '{{ ansible_user_id }}'
-    - '{{ ansible_env.SUDO_USER }}'
