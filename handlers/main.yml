@@ -1,5 +1,2 @@
 ---
 # handlers file for deploy-key
-- name: Update SMTPd database
-  when: ansible_os_family == 'OpenBSD'
-  command: /usr/bin/newaliases

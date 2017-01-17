@@ -5,12 +5,22 @@
     that:
         - ansible_os_family in ['OpenBSD', 'Debian']
         - deploy_key is defined
-        - deploy_key_user is defined
+        - deploy_key_users is iterable
         - deploy_key_repos is iterable
 
-- name: Get passwd
-  getent:
-      database: passwd
+- name: Create deploy group
+  group:
+      name: deploy
+      state: present
+      system: no
+
+- name: Add users to the deploy group
+  with_items: '{{ deploy_key_users }}'
+  user:
+      name: '{{ item }}'
+      groups: deploy
+      append: True
+      state: present
 
 - name: APT install # acl for running modules with a limited user
   when: ansible_pkg_mgr == 'apt'
@@ -26,22 +36,12 @@
       name: git
       state: present
 
-- name: Add mail alias
-  when: deploy_key_mail_alias is defined
-  lineinfile:
-      dest: '{{ aliases_file[ansible_os_family] }}'
-      create: yes
-      line: '{{ deploy_key_user }}: {{ deploy_key_mail_alias }}'
-      regexp: '{{ deploy_key_user }}:'
-  notify:
-      - Update SMTPd database
-
 - name: Copy the deployment key
   copy:
       content: '{{ deploy_key }}'
-      owner: '{{ deploy_key_user }}'
-      group: '{{ getent_passwd[deploy_key_user][2] }}'
-      mode: 0o0400
+      owner: root
+      group: deploy
+      mode: 0o0440
       dest: /etc/ssh/deploy.key
 
 - name: Configure SSH to use the deploy key

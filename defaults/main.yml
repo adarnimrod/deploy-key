@@ -1,4 +1,7 @@
 ---
 # defaults file for deploy-key
-deploy_key_user: nobody
-deploy_key_mail_alias: root
+deploy_key_users:
+    - nobody
+    - root
+    - '{{ ansible_user_id }}'
+    - '{{ ansible_env.SUDO_USER }}'
