@@ -1,5 +1,6 @@
 ---
 # tasks file for deploy-key
+
 - name: Assertions
   assert:
     that:

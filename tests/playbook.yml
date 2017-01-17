@@ -1,14 +1,14 @@
 ---
-- hosts: deploy-key-openbsd
+- hosts: deploy-key-openbsd*
   gather_facts: false
-  roles: [adarnimrod.openbsd-bootstrap]
+  roles: [openbsd-bootstrap]
 
 - hosts: deploy-key-xenial
   gather_facts: false
-  roles: [adarnimrod.debian-bootstrap]
+  roles: [debian-bootstrap]
 
 - hosts: all
-  tasks:
+  pre_tasks:
       - name: Create SSH keypair
         local_action: command ssh-keygen -t rsa -N '' -f files/id_rsa
         run_once: True
@@ -27,9 +27,6 @@
         service:
             name: ssh
             state: started
-
-- hosts: all
-  strategy: free
   roles:
     - role: deploy-key
       deploy_key: '{{ lookup("file", "id_rsa") }}'
