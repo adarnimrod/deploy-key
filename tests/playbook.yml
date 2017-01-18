@@ -1,11 +1,21 @@
 ---
 - hosts: deploy-key-openbsd*
   gather_facts: false
-  roles: [openbsd-bootstrap]
+  roles:
+      - openbsd-bootstrap
+      - role: users
+        users: []
+        users_use_sudo: True
+        users_lock_root_ssh: False
 
-- hosts: deploy-key-xenial
+- hosts: [deploy-key-xenial, deploy-key-wheezy]
   gather_facts: false
-  roles: [debian-bootstrap]
+  roles:
+      - debian-bootstrap
+      - role: users
+        users: []
+        users_use_sudo: True
+        users_lock_root_ssh: False
 
 - hosts: all
   pre_tasks:
