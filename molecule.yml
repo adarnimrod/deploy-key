@@ -24,10 +24,12 @@ vagrant:
     box: ubuntu/xenial32
   - name: trusty
     box: ubuntu/trusty32
+  - name: precise
+    box: hashicorp/precise32
   - name: jessie
-    box: debian/jessie32
+    box: deb/jessie-i386
   - name: wheezy
-    box: debian/wheezy32
+    box: bmorg/debian-wheezy-i386
   instances:
   - name: deploy-key
     options:
@@ -60,6 +62,13 @@ docker:
     image_version: trusty
     environment:
         DEBIAN_FRONTEND: noninteractive
+        container: docker
+  - name: deploy-key-precise
+    image: ubuntu
+    image_version: precise
+    environment:
+        DEBIAN_FRONTEND: noninteractive
+        container: docker
   - name: deploy-key-jessie
     image: debian
     image_version: jessie
