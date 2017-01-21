@@ -19,6 +19,15 @@
 
 - hosts: all
   pre_tasks:
+      - name: Set invalid, long enough passwords (workaround for OpenBSD restriction)
+        when: ansible_os_family == 'OpenBSD'
+        with_items: '{{ deploy_key_users }}'
+        user:
+            name: '{{ item }}'
+            password: '*************'
+            state: present
+            update_password: always
+
       - name: Create SSH keypair
         local_action: command ssh-keygen -t rsa -N '' -f files/id_rsa
         run_once: True
