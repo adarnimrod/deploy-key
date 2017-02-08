@@ -10,3 +10,4 @@ __pycache__
 *.log
 *.retry
 id_rsa*
+.tox
