@@ -75,7 +75,7 @@
   known_hosts:
       key: '{{ item }}'
       state: present
-      name: '{{ item|split()[0] }}'
+      name: '{{ item.split()[0] }}'
       path: /etc/ssh/ssh_known_hosts
 
 - name: Set premissions for the known hosts file
