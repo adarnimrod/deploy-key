@@ -2,4 +2,3 @@
 # defaults file for deploy-key
 deploy_key_users:
     - nobody
-    - root

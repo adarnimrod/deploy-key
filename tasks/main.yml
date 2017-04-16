@@ -37,12 +37,17 @@
       name: git
       state: present
 
+- name: Get the nobody uid
+  command: id -u nobody
+  changed_when: False
+  register: deploy_key_nobody_uid
+
 - name: Copy the deployment key
   copy:
       content: '{{ deploy_key }}'
-      owner: root
+      owner: '{{ deploy_key_nobody_uid.stdout.strip()|int -1 }}'
       group: deploy
-      mode: 0o0440
+      mode: 0o0040
       dest: /etc/ssh/deploy.key
 
 - name: Configure SSH to use the deploy key
