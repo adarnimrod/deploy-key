@@ -63,8 +63,7 @@
           IdentityFile /etc/ssh/deploy.key
 
 - name: Get hosts keys
-  with_items: '{{ deploy_key_repos }}'
-  command: ssh-keyscan -H {{ item }}
+  command: ssh-keyscan {{ deploy_key_repos|join(' ') }}
   register: deploy_key_ssh_keyscan
   changed_when: False
   failed_when: deploy_key_ssh_keyscan|failed or deploy_key_ssh_keyscan.stdout == ""
@@ -72,11 +71,11 @@
   check_mode: no
 
 - name: Add known hosts
-  with_items: '{{ deploy_key_ssh_keyscan.results }}'
+  with_items: '{{ deploy_key_ssh_keyscan.stdout_lines }}'
   known_hosts:
-      key: '{{ item.stdout }}'
+      key: '{{ item }}'
       state: present
-      name: '{{ item.item }}'
+      name: '{{ item|split()[0] }}'
       path: /etc/ssh/ssh_known_hosts
 
 - name: Set premissions for the known hosts file
